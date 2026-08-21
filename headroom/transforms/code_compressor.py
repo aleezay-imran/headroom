@@ -224,6 +224,7 @@ class CodeLanguage(Enum):
     PERL = "perl"
     CSHARP = "csharp"
     PHP = "php"
+    RUBY = "ruby"
     UNKNOWN = "unknown"
 
 
@@ -248,6 +249,7 @@ _LANGUAGE_ALIASES: dict[str, CodeLanguage] = {
     "cc": CodeLanguage.CPP,
     "hpp": CodeLanguage.CPP,
     "pl": CodeLanguage.PERL,
+    "rb": CodeLanguage.RUBY,
     "phtml": CodeLanguage.PHP,
     "php5": CodeLanguage.PHP,
     "php7": CodeLanguage.PHP,
@@ -482,6 +484,17 @@ _LANG_CONFIGS: dict[CodeLanguage, LangConfig] = {
         package_node="namespace_definition",
         detection_hints=("<?php", "function ", "namespace ", "->", "$this"),
         class_body_node_types=frozenset({"declaration_list"}),
+    ),
+    CodeLanguage.RUBY: LangConfig(
+        import_nodes=frozenset({"call"}),
+        function_nodes=frozenset({"method", "singleton_method"}),
+        class_nodes=frozenset({"class", "module"}),
+        type_nodes=frozenset(),
+        body_node_types=frozenset({"body_statement"}),
+        decorator_node=None,
+        comment_prefix="#",
+        uses_colon_after_signature=False,
+        detection_hints=("def ", "class ", "module ", "require ", "end"),
     ),
 }
 
